@@ -56,6 +56,8 @@ kotlin {
 
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.bundles.ktor)
+
+            implementation(libs.jetbrains.compose.navigation)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
