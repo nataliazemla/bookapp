@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -46,6 +47,7 @@ import bookapp.composeapp.generated.resources.remove_from_favorites
 import coil3.compose.rememberAsyncImagePainter
 import org.example.bookapp.core.presentation.DarkBlue
 import org.example.bookapp.core.presentation.DesertWhite
+import org.example.bookapp.core.presentation.PulseAnimation
 import org.example.bookapp.core.presentation.SandYellow
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -144,7 +146,7 @@ fun BlurredImageBackground(
                             modifier = Modifier.fillMaxSize(),
                             contentAlignment = Alignment.Center
                         ) {
-                            CircularProgressIndicator()
+                            PulseAnimation(modifier = Modifier.size(60.dp))
                         }
                         else -> {
                             Box {
@@ -176,7 +178,7 @@ fun BlurredImageBackground(
                                             )
                                         )
                                 ) {
-                                    Icon (
+                                    Icon(
                                         imageVector = if (isFavorite) {
                                             Icons.Filled.Favorite
                                         } else {
