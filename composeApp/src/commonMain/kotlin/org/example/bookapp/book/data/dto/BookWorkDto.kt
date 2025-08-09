@@ -1,4 +1,7 @@
 package org.example.bookapp.book.data.dto
 
-class BookWorkDto {
-}
+import kotlinx.serialization.Serializable
+@Serializable(with = BookWorkDtoSerializer::class)
+data class BookWorkDto(
+    val description: String? = null
+)

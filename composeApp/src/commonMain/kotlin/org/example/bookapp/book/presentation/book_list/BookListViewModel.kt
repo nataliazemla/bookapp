@@ -1,3 +1,5 @@
+@file:OptIn(FlowPreview::class)
+
 package org.example.bookapp.book.presentation.book_list
 
 import androidx.lifecycle.ViewModel
@@ -24,17 +26,19 @@ import org.example.bookapp.core.presentation.toUiText
 
 class BookListViewModel(
     private val bookRepository: BookRepository
-): ViewModel() {
+) : ViewModel() {
 
     private var cachedBooks = emptyList<Book>()
     private var searchJob: Job? = null
+    private var observeFavouriteBooksJob: Job? = null
 
     private val _state = MutableStateFlow(BookListState())
     val state = _state
         .onStart {
-            if(cachedBooks.isEmpty()) {
+            if (cachedBooks.isEmpty()) {
                 observeSearchQuery()
             }
+            observeFavouriteBooks()
         }
         .stateIn(
             viewModelScope,
@@ -50,6 +54,7 @@ class BookListViewModel(
                     it.copy(searchQuery = action.query)
                 }
             }
+
             is BookListAction.OnTabSelected -> {
                 _state.update {
                     it.copy(selectedTabIndex = action.index)
@@ -58,7 +63,20 @@ class BookListViewModel(
         }
     }
 
-    @OptIn(FlowPreview::class)
+    private fun observeFavouriteBooks() {
+        observeFavouriteBooksJob?.cancel()
+        observeFavouriteBooksJob = bookRepository
+            .getFavouriteBooks()
+            .onEach { favouriteBooks ->
+                _state.update {
+                    it.copy(
+                        favoriteBooks = favouriteBooks
+                    )
+                }
+            }
+            .launchIn(viewModelScope)
+    }
+
     private fun observeSearchQuery() {
         _state
             .map { it.searchQuery }

@@ -183,7 +183,7 @@ private fun BookDetailScreen(
 //                    }
                 } else {
                     Text(
-                        text = state.book.description.takeIf { it.isNullOrBlank() }
+                        text = state.book.description.takeIf { !it.isNullOrBlank() }
                             ?: stringResource(Res.string.description_unavailable),
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Justify,
