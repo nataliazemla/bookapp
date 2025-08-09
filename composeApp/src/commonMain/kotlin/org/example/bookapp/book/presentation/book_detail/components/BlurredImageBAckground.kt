@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
@@ -74,7 +75,9 @@ fun BlurredImageBackground(
         }
     )
 
-    Box {
+    Box(
+        modifier = modifier
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -121,26 +124,28 @@ fun BlurredImageBackground(
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxHeight()
+            modifier = Modifier.fillMaxWidth()
         ) {
             Spacer(modifier = Modifier.fillMaxHeight(0.15f))
             ElevatedCard(
                 modifier = Modifier
-                    .width(200.dp)
+                    .height(270.dp)
                     .aspectRatio(2 / 3f),
                 shape = RoundedCornerShape(8.dp),
-                colors = CardDefaults.elevatedCardColors(
-                    contentColor = Color.Transparent
-                ),
                 elevation = CardDefaults.elevatedCardElevation(
-                    defaultElevation = 15.dp
+                    defaultElevation = 150.dp
                 )
             ) {
                 AnimatedContent(
                     targetState = imageLoadResult
                 ) { result ->
                     when (result) {
-                        null -> CircularProgressIndicator()
+                        null -> Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator()
+                        }
                         else -> {
                             Box {
                                 Image(
@@ -190,6 +195,7 @@ fun BlurredImageBackground(
                     }
                 }
             }
+            content()
         }
     }
 }
